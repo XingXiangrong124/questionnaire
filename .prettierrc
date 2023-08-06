@@ -6,5 +6,37 @@
   "singleQuote": true,
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "*.{ts,tsx}",
+      "options": {
+        "semi": true,
+        "singleQuote": true,
+        "spaceBeforeFunctionParen": true,
+        "overrides": [
+          {
+            "files": "*.{ts,tsx}",
+            "options": {
+              "parser": "typescript",
+              "overrides": [
+                {
+                  "files": "*.{ts,tsx}",
+                  "options": {
+                    "parser": "typescript",
+                    "semi": true,
+                    "singleQuote": true,
+                    "spaceBeforeFunctionParen": true,
+                    "rules": {
+                      "typescript-specific-thing": "foobar"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
 }
