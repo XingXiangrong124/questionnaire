@@ -1,4 +1,4 @@
-import List from './views/List';
+import List from './views/mangement/List';
 function App() {
   // const { x, y } = useMouse();
   return (

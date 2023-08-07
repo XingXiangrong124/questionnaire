@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import styles from './List.module.scss';
 import { produce } from 'immer';
-import QuestionCard from '../components/QuestionCard';
+import QuestionCard from '../../components/QuestionCard';
 const rawDataList = [
   {
     _id: 'q1',
