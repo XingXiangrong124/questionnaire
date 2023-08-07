@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import styles from './List.module.scss';
 import { produce } from 'immer';
 import QuestionCard from '../../components/QuestionCard';
+import { useTitle } from 'ahooks';
 const rawDataList = [
   {
     _id: 'q1',
@@ -29,6 +30,7 @@ const rawDataList = [
   },
 ];
 const List: FC = () => {
+  useTitle('我的问卷');
   const [questions, setQuestions] = useState(rawDataList);
   useEffect(
     () =>

@@ -1,0 +1,13 @@
+.layout {
+  display: flex;
+  padding: 24px 0;
+  width: 1200px;
+  margin: 0 0;
+  .left {
+    width: 120px;
+  }
+  .right {
+    flex: 1;
+    margin-left: 60px;
+  }
+}

@@ -1,9 +1,10 @@
-import List from './views/mangement/List';
+import { RouterProvider } from 'react-router-dom';
+import routerConfig from './router';
 function App() {
   // const { x, y } = useMouse();
   return (
     <>
-      <List />
+      <RouterProvider router={routerConfig}></RouterProvider>
     </>
   );
 }

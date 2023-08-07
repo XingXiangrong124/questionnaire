@@ -1,5 +1,5 @@
 import { FC } from 'react';
 const Rubbish: FC = () => {
-  return <div>NotFound</div>;
+  return <div>Rubbish</div>;
 };
 export default Rubbish;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
 const Star: FC = () => {
-  return <div>NotFound</div>;
+  return <div>Star</div>;
 };
 export default Star;
