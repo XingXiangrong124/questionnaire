@@ -69,3 +69,9 @@ const router = createBrowserRouter([
   },
 ]);
 export default router;
+
+export const LIST_PATHNAME = '/management/list';
+export const STAR_PATHNAME = '/management/star';
+export const RUBBISH_PATHNAME = '/management/rubbish';
+export const REGISTER_PATHNAME = '/register';
+export const LOGIN_PATHNAME = '/login';
