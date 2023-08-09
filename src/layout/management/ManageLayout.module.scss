@@ -1,13 +1,13 @@
 .layout {
   display: flex;
   padding: 24px 0;
-  width: 1200px;
-  margin: 0 auto;
+  max-width: 100vw;
+  margin: 0 2vw;
   .left {
-    width: 120px;
+    width: 12vw;
   }
   .right {
     flex: 1;
-    margin-left: 60px;
+    margin-left: 1vw;
   }
 }

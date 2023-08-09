@@ -10,7 +10,7 @@ const Logo: FC = () => {
       <Link to="/">
         <Space>
           <Title>
-            <IconFont type="icon-charter"></IconFont>
+            <IconFont type="icon-chess-knight"></IconFont>
           </Title>
           <Title>Questionnaire</Title>
         </Space>

@@ -1,8 +1,9 @@
 import { FC, useState, useEffect } from 'react';
-import styles from './List.module.scss';
+import styles from './common.module.scss';
 import { produce } from 'immer';
 import QuestionCard from '../../components/QuestionCard';
 import { useTitle } from 'ahooks';
+import { Typography } from 'antd';
 const rawDataList = [
   {
     _id: 'q1',
@@ -16,7 +17,7 @@ const rawDataList = [
     _id: 'q2',
     name: '问卷2',
     isPublished: true,
-    isStar: false,
+    isStar: true,
     answerCount: 3,
     createAt: '8月1日 20:31',
   },
@@ -40,7 +41,7 @@ const List: FC = () => {
             _id: 'q4',
             name: '问卷4',
             isPublished: false,
-            isStar: false,
+            isStar: true,
             answerCount: 1,
             createAt: '8月17日 21:35',
           });
@@ -48,25 +49,27 @@ const List: FC = () => {
       ),
     [],
   );
+  const { Title } = Typography;
   return (
     <>
       <div className={styles.header}>
         <div className={styles.left}>
-          <h3>我的问卷</h3>
+          <Title level={3}>我的问卷</Title>
         </div>
         <div className={styles.right}>搜索</div>
       </div>
       <div className={styles.content}>
-        {questions.map(q => {
-          const { _id } = q;
-          return (
-            <>
-              <QuestionCard key={_id} {...q}></QuestionCard>
-            </>
-          );
-        })}
+        {questions.length &&
+          questions.map(q => {
+            const { _id } = q;
+            return (
+              <>
+                <QuestionCard key={_id} {...q}></QuestionCard>
+              </>
+            );
+          })}
       </div>
-      <div className={styles.footer}>footer</div>
+      <div className={styles.footer}>Loading... 滚动加载更多</div>
     </>
   );
 };

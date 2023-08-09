@@ -3,9 +3,11 @@ import { Button, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LIST_PATHNAME } from '../router';
 import styles from './Home.module.scss';
+import { useTitle } from 'ahooks';
 const Home: FC = () => {
   const { Title, Paragraph } = Typography;
   const nav = useNavigate();
+  useTitle('Questionnaire');
   return (
     <>
       <div className={styles.content}>
