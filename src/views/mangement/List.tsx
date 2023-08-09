@@ -3,7 +3,8 @@ import styles from './common.module.scss';
 import { produce } from 'immer';
 import QuestionCard from '../../components/QuestionCard';
 import { useTitle } from 'ahooks';
-import { Typography } from 'antd';
+import { Typography, Empty } from 'antd';
+const { Title } = Typography;
 const rawDataList = [
   {
     _id: 'q1',
@@ -31,8 +32,8 @@ const rawDataList = [
   },
 ];
 const List: FC = () => {
-  useTitle('我的问卷');
   const [questions, setQuestions] = useState(rawDataList);
+  useTitle('我的问卷');
   useEffect(
     () =>
       setQuestions(
@@ -49,7 +50,6 @@ const List: FC = () => {
       ),
     [],
   );
-  const { Title } = Typography;
   return (
     <>
       <div className={styles.header}>
@@ -59,17 +59,14 @@ const List: FC = () => {
         <div className={styles.right}>搜索</div>
       </div>
       <div className={styles.content}>
+        {questions.length === 0 && <Empty description="添加你的问卷吧❤" />}
         {questions.length &&
           questions.map(q => {
             const { _id } = q;
-            return (
-              <>
-                <QuestionCard key={_id} {...q}></QuestionCard>
-              </>
-            );
+            return <QuestionCard key={_id} {...q}></QuestionCard>;
           })}
       </div>
-      <div className={styles.footer}>Loading... 滚动加载更多</div>
+      <div className={styles.footer}>分页</div>
     </>
   );
 };
