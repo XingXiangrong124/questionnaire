@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import styles from './common.module.scss';
 import { produce } from 'immer';
 import QuestionCard from '../../components/QuestionCard';
+import SearchQuestion from '../../components/SearchQuestion';
 import { useTitle } from 'ahooks';
 import { Typography, Empty } from 'antd';
 const { Title } = Typography;
@@ -48,7 +49,9 @@ const Star: FC = () => {
         <div className={styles.left}>
           <Title level={3}>星标问卷</Title>
         </div>
-        <div className={styles.right}>搜索</div>
+        <div className={styles.right}>
+          <SearchQuestion />
+        </div>
       </div>
       <div className={styles.content}>
         {questions.length === 0 && <Empty description="&nbsp;暂无星标问卷❤" />}

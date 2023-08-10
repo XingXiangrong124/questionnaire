@@ -3,6 +3,7 @@ import styles from './common.module.scss';
 import { useTitle } from 'ahooks';
 import { Typography } from 'antd';
 import RubbishTable from '../../components/RubbishTable';
+import SearchQuestion from '../../components/SearchQuestion';
 const { Title } = Typography;
 const Rubbish: FC = () => {
   useTitle('回收站');
@@ -12,7 +13,9 @@ const Rubbish: FC = () => {
         <div className={styles.left}>
           <Title level={3}>回收站</Title>
         </div>
-        <div className={styles.right}>搜索</div>
+        <div className={styles.right}>
+          <SearchQuestion />
+        </div>
       </div>
       <div className={styles.content}>
         <RubbishTable />
