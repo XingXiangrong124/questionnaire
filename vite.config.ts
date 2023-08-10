@@ -4,6 +4,9 @@ import loaderUtils from 'loader-utils';
 import path from 'path';
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+  },
   css: {
     modules: {
       localsConvention: 'camelCase',
