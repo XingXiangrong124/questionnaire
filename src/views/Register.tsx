@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Typography, Button, Space, Form, Input } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
 import styles from './Register.module.scss';
 const { Title } = Typography;
@@ -12,7 +12,6 @@ type FieldType = {
   remember?: string;
 };
 const Register: FC = () => {
-  const nav = useNavigate();
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };

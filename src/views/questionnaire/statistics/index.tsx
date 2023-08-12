@@ -1,7 +1,13 @@
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { useRequestQDeatil } from '../../../hooks/useRequestQDeatil';
 const Statistics: FC = () => {
-  const { id = '' } = useParams();
-  return <div>Statistics {id}</div>;
+  const { loading, data } = useRequestQDeatil();
+
+  return (
+    <>
+      <div>Statistics</div>
+      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>}
+    </>
+  );
 };
 export default Statistics;

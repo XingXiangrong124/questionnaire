@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
+import { useRequestQDeatil } from '../../../hooks/useRequestQDeatil';
 const Edit: FC = () => {
-  const { id = '' } = useParams();
-  return <div>Edit {id}</div>;
+  const { loading, data } = useRequestQDeatil();
+  return (
+    <>
+      <div>Edit</div>
+      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>}
+    </>
+  );
 };
 export default Edit;

@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
-import { Table, Tag, Space, Button, Modal, message } from 'antd';
+import { Table, Tag, Space, Button, Modal, message, Spin } from 'antd';
 import Column from 'antd/es/table/Column';
+import useQuestionList from '../hooks/useQuestionList';
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 const columnsTable = [
   {
@@ -23,33 +24,11 @@ const columnsTable = [
     dataIndex: 'createAt',
   },
 ];
-const data = [
-  {
-    _id: 'q1',
-    name: '问卷test1',
-    isPublished: true,
-    answerCount: 11,
-    createAt: '8月1日 20:30',
-  },
-  {
-    _id: 'q2',
-    name: '问卷test2',
-    isPublished: false,
-    answerCount: 110,
-    createAt: '8月12日 20:30',
-  },
-  {
-    _id: 'q3',
-    name: '问卷test3',
-    isPublished: true,
-    answerCount: 54,
-    createAt: '8月21日 20:30',
-  },
-];
 const RubbishTable: FC = () => {
+  const { list, loading } = useQuestionList({ isDeleted: true });
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [deletedLoading, setdeletedLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[]) => {
@@ -60,10 +39,10 @@ const RubbishTable: FC = () => {
     setDeleteOpen(true);
   };
   const handleOk = () => {
-    setLoading(true);
+    setdeletedLoading(true);
     setTimeout(() => {
       setDeleteOpen(false);
-      setLoading(false);
+      setdeletedLoading(false);
       messageApi.open({
         type: 'success',
         content: '彻底删除成功',
@@ -86,40 +65,47 @@ const RubbishTable: FC = () => {
           </Button>
         </Space>
       </div>
-      <Table
-        dataSource={data}
-        rowKey={q => q._id}
-        rowSelection={{
-          type: 'checkbox',
-          ...rowSelection,
-        }}
-      >
-        {columnsTable.map(item => {
-          const { title, dataIndex, render } = item;
-          return (
-            <Column
-              title={title}
-              dataIndex={dataIndex}
-              render={value => (render ? render(value) : value)}
-              key={dataIndex}
-            ></Column>
-          );
-        })}
-        <Column
-          title="操作"
-          key="action"
-          render={(_: any, record) => (
-            <div style={{ marginLeft: '-45px' }}>
-              <Button type="link" style={{ fontSize: '14px' }}>
-                恢复
-              </Button>
-              <Button type="link" style={{ fontSize: '14px' }} onClick={showWarn}>
-                删除
-              </Button>
-            </div>
-          )}
-        />
-      </Table>
+      {loading && (
+        <div style={{ display: 'flex', alignSelf: 'flex-end', justifyContent: 'center' }}>
+          <Spin size="large" />
+        </div>
+      )}
+      {!loading && (
+        <Table
+          dataSource={list}
+          rowKey={q => q._id}
+          rowSelection={{
+            type: 'checkbox',
+            ...rowSelection,
+          }}
+        >
+          {columnsTable.map(item => {
+            const { title, dataIndex, render } = item;
+            return (
+              <Column
+                title={title}
+                dataIndex={dataIndex}
+                render={value => (render ? render(value) : value)}
+                key={dataIndex}
+              ></Column>
+            );
+          })}
+          <Column
+            title="操作"
+            key="action"
+            render={(_: any, record) => (
+              <div style={{ marginLeft: '-45px' }}>
+                <Button type="link" style={{ fontSize: '14px' }}>
+                  恢复
+                </Button>
+                <Button type="link" style={{ fontSize: '14px' }} onClick={showWarn}>
+                  删除
+                </Button>
+              </div>
+            )}
+          />
+        </Table>
+      )}
       <Modal
         title={
           <Space>
@@ -129,7 +115,7 @@ const RubbishTable: FC = () => {
         }
         open={deleteOpen}
         onOk={handleOk}
-        confirmLoading={loading}
+        confirmLoading={deletedLoading}
         onCancel={handleCancel}
       ></Modal>
     </>

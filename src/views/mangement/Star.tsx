@@ -1,48 +1,15 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import styles from './common.module.scss';
-import { produce } from 'immer';
 import QuestionCard from '../../components/QuestionCard';
 import SearchQuestion from '../../components/SearchQuestion';
+import useQuestionList from '../../hooks/useQuestionList';
 import { useTitle } from 'ahooks';
-import { Typography, Empty } from 'antd';
+import { Typography, Empty, Spin } from 'antd';
 const { Title } = Typography;
-const rawDataList = [
-  {
-    _id: 'q2',
-    name: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 3,
-    createAt: '8月1日 20:31',
-  },
-  {
-    _id: 'q3',
-    name: '问卷3',
-    isPublished: true,
-    isStar: true,
-    answerCount: 1,
-    createAt: '8月13日 20:35',
-  },
-];
+
 const Star: FC = () => {
-  const [questions, setQuestions] = useState(rawDataList);
+  const { list, loading } = useQuestionList({ isStar: true });
   useTitle('星标问卷');
-  useEffect(
-    () =>
-      setQuestions(
-        produce(questions, (draft: any) => {
-          draft.push({
-            _id: 'q4',
-            name: '问卷4',
-            isPublished: false,
-            isStar: true,
-            answerCount: 1,
-            createAt: '8月17日 21:35',
-          });
-        }),
-      ),
-    [],
-  );
   return (
     <div>
       <div className={styles.header}>
@@ -54,9 +21,14 @@ const Star: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questions.length === 0 && <Empty description="&nbsp;暂无星标问卷❤" />}
-        {questions.length > 0 &&
-          questions.map(q => {
+        {loading && (
+          <div style={{ display: 'flex', alignSelf: 'flex-end', justifyContent: 'center' }}>
+            <Spin size="large" />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="&nbsp;暂无星标问卷❤" />}
+        {list.length > 0 &&
+          list.map(q => {
             const { _id } = q;
             return <QuestionCard key={_id} {...q}></QuestionCard>;
           })}

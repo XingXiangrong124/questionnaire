@@ -1,13 +1,11 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Input, Space } from 'antd';
 import { LIST_PATHNAME } from '../router';
-import { LIST_SEARCH_PARAMETER_KEY } from '../constant/index';
+import { LIST_SEARCH_PARAMETER_KEY } from '../utils/constant/index';
 const { Search } = Input;
 const SearchQuestion: FC = () => {
   const nav = useNavigate();
-  const { pathname } = useLocation();
-  //↓学习
   const [searchParams] = useSearchParams();
   const [keyValue, setKeyValue] = useState('');
   // 获取url参数，和分页搜索框联动
@@ -29,7 +27,7 @@ const SearchQuestion: FC = () => {
       <Space>
         <Search
           size="large"
-          placeholder="input search text"
+          placeholder="搜索页面"
           value={keyValue}
           onSearch={onSearch}
           onChange={SearchHandle}
