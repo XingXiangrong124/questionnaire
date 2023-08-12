@@ -1,22 +1,23 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { Input, Space } from 'antd';
-import { LIST_PATHNAME } from '../router';
 import { LIST_SEARCH_PARAMETER_KEY } from '../utils/constant/index';
 const { Search } = Input;
 const SearchQuestion: FC = () => {
   const nav = useNavigate();
   const [searchParams] = useSearchParams();
   const [keyValue, setKeyValue] = useState('');
+  const currentPath = useLocation();
   // 获取url参数，和分页搜索框联动
   useEffect(() => {
     const curValue = searchParams.get(LIST_SEARCH_PARAMETER_KEY) || '';
     setKeyValue(curValue);
   }, [searchParams]);
   const onSearch = (value: string) => {
+    searchParams.set(LIST_SEARCH_PARAMETER_KEY, value);
     nav({
-      pathname: LIST_PATHNAME,
-      search: `${LIST_SEARCH_PARAMETER_KEY}=${value}`,
+      pathname: currentPath.pathname,
+      search: searchParams.toString(),
     });
   };
   const SearchHandle = (event: ChangeEvent<HTMLInputElement>) => {

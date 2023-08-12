@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { Table, Tag, Space, Button, Modal, message, Spin } from 'antd';
 import Column from 'antd/es/table/Column';
-import useQuestionList from '../hooks/useQuestionList';
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 const columnsTable = [
   {
@@ -24,8 +23,12 @@ const columnsTable = [
     dataIndex: 'createAt',
   },
 ];
-const RubbishTable: FC = () => {
-  const { list, loading } = useQuestionList({ isDeleted: true });
+type PropsType = {
+  list: any;
+  loading: boolean;
+};
+const RubbishTable: FC<PropsType> = props => {
+  const { list, loading } = props;
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletedLoading, setdeletedLoading] = useState(false);
@@ -78,6 +81,7 @@ const RubbishTable: FC = () => {
             type: 'checkbox',
             ...rowSelection,
           }}
+          pagination={false}
         >
           {columnsTable.map(item => {
             const { title, dataIndex, render } = item;

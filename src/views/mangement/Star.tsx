@@ -3,12 +3,13 @@ import styles from './common.module.scss';
 import QuestionCard from '../../components/QuestionCard';
 import SearchQuestion from '../../components/SearchQuestion';
 import useQuestionList from '../../hooks/useQuestionList';
+import PaginationComponent from '../../components/Pagination';
 import { useTitle } from 'ahooks';
 import { Typography, Empty, Spin } from 'antd';
 const { Title } = Typography;
 
 const Star: FC = () => {
-  const { list, loading } = useQuestionList({ isStar: true });
+  const { list, loading, total } = useQuestionList({ isStar: true });
   useTitle('星标问卷');
   return (
     <div>
@@ -33,7 +34,9 @@ const Star: FC = () => {
             return <QuestionCard key={_id} {...q}></QuestionCard>;
           })}
       </div>
-      <div className={styles.footer}>Loading... 滚动加载更多</div>
+      <div className={styles.footer}>
+        <PaginationComponent total={total}></PaginationComponent>
+      </div>
     </div>
   );
 };

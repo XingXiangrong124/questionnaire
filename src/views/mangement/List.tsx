@@ -3,13 +3,15 @@ import styles from './common.module.scss';
 import QuestionCard from '../../components/QuestionCard';
 import SearchQuestion from '../../components/SearchQuestion';
 import useQuestionList from '../../hooks/useQuestionList';
+import PaginationComponent from '../../components/Pagination';
 import { useTitle } from 'ahooks';
 import { Typography, Empty, Spin } from 'antd';
 
 const { Title } = Typography;
 const List: FC = () => {
   useTitle('我的问卷');
-  const { list, loading } = useQuestionList();
+  const { list, loading, total } = useQuestionList();
+  console.log(total);
   return (
     <>
       <div className={styles.header}>
@@ -27,13 +29,15 @@ const List: FC = () => {
           </div>
         )}
         {!loading && list.length === 0 && <Empty description="添加你的问卷吧❤" />}
-        {list.length &&
+        {list.length > 0 &&
           list.map(q => {
             const { _id } = q;
             return <QuestionCard key={_id} {...q}></QuestionCard>;
           })}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.footer}>
+        <PaginationComponent total={total}></PaginationComponent>
+      </div>
     </>
   );
 };
