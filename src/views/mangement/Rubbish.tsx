@@ -8,7 +8,7 @@ import useQuestionList from '../../hooks/useQuestionList';
 import SearchQuestion from '../../components/SearchQuestion';
 const { Title } = Typography;
 const Rubbish: FC = () => {
-  const { list, loading, total } = useQuestionList({ isDeleted: true });
+  const { list, loading, total, refresh } = useQuestionList({ isDeleted: true });
   useTitle('回收站');
   return (
     <div>
@@ -21,7 +21,7 @@ const Rubbish: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        <RubbishTable list={list} loading={loading} />
+        <RubbishTable list={list} loading={loading} refresh={refresh} />
       </div>
       <div className={styles.footer}>
         <PaginationComponent total={total} />

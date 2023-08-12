@@ -30,8 +30,9 @@ const useQuestionList = (option?: Partial<SearchOptionType>) => {
     loading,
     data = {},
     error,
+    refresh,
   } = useRequest(() => getQuestionList({ key, isStar, isDeleted, pageNum }), { refreshDeps: [searchParams] }); //刷新依赖项
   const { list = [], total = 0 } = data as ListDataType;
-  return { loading, list, total, error, searchParams };
+  return { loading, list, total, error, refresh };
 };
 export default useQuestionList;
