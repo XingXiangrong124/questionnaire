@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { Table, Tag, Space, Button, Modal, message, Spin } from 'antd';
 import { useRequest } from 'ahooks';
-import { modifyQuestionList } from '../api/question';
+import { modifyQuestionList, deleteQuestionLsit } from '../api/question';
 import Column from 'antd/es/table/Column';
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 const columnsTable = [
@@ -35,7 +35,9 @@ const RubbishTable: FC<PropsType> = props => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletedLoading, setdeletedLoading] = useState(false);
+  const [deleteList, setDeleteList] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
+  // 恢复
   const { loading: renewLoading, run: renewFun } = useRequest(
     async (id = '') => {
       let data;
@@ -57,7 +59,32 @@ const RubbishTable: FC<PropsType> = props => {
           type: 'success',
           content: '恢复成功',
         });
+        setSelectedItems([]);
         refresh();
+      },
+    },
+  );
+  // 删除
+  const { run: deleteRun } = useRequest(
+    async (id = '') => {
+      let data;
+      if (id) {
+        data = await deleteQuestionLsit([id]);
+      } else {
+        data = await deleteQuestionLsit(selectedItems);
+      }
+      return data;
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setDeleteOpen(false);
+        setdeletedLoading(false);
+        refresh();
+        messageApi.open({
+          type: 'success',
+          content: '彻底删除成功',
+        });
       },
     },
   );
@@ -67,36 +94,45 @@ const RubbishTable: FC<PropsType> = props => {
     },
   };
   const showWarn = () => {
+    console.log(deleteList);
     setDeleteOpen(true);
   };
   const handleOk = () => {
     setdeletedLoading(true);
-    setTimeout(() => {
-      setDeleteOpen(false);
-      setdeletedLoading(false);
-      messageApi.open({
-        type: 'success',
-        content: '彻底删除成功',
-      });
-    }, 1000);
+    if (deleteList) {
+      deleteRun(deleteList);
+      setDeleteList('');
+    } else {
+      deleteRun();
+      setSelectedItems([]);
+    }
   };
   const handleCancel = () => {
     setDeleteOpen(false);
+    setDeleteList('');
+    setSelectedItems([]);
   };
   return (
     <>
-      {contextHolder}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-        <Space>
-          <Button type="primary" disabled={selectedItems.length === 0} onClick={() => renewFun()}>
-            批量恢复
-          </Button>
-          <Button danger disabled={selectedItems.length === 0} onClick={showWarn}>
-            批量删除
-          </Button>
-        </Space>
-      </div>
       <Spin size="large" spinning={loading || renewLoading}>
+        {contextHolder}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <Space>
+            <Button type="primary" disabled={selectedItems.length === 0} onClick={() => renewFun()}>
+              批量恢复
+            </Button>
+            <Button
+              danger
+              disabled={selectedItems.length === 0}
+              onClick={() => {
+                showWarn();
+              }}
+            >
+              批量删除
+            </Button>
+          </Space>
+        </div>
+
         {
           <Table
             dataSource={list}
@@ -126,7 +162,14 @@ const RubbishTable: FC<PropsType> = props => {
                   <Button type="link" style={{ fontSize: '14px' }} onClick={() => renewFun(record._id)}>
                     恢复
                   </Button>
-                  <Button type="link" style={{ fontSize: '14px' }} onClick={showWarn}>
+                  <Button
+                    type="link"
+                    style={{ fontSize: '14px' }}
+                    onClick={() => {
+                      setDeleteList(record._id);
+                      showWarn();
+                    }}
+                  >
                     删除
                   </Button>
                 </div>
@@ -134,19 +177,20 @@ const RubbishTable: FC<PropsType> = props => {
             />
           </Table>
         }
+
+        <Modal
+          title={
+            <Space>
+              <ExclamationCircleTwoTone twoToneColor="#FFD700" style={{ fontSize: '20px' }} />
+              <span>确定要彻底删除此问卷吗？</span>
+            </Space>
+          }
+          open={deleteOpen}
+          onOk={handleOk}
+          confirmLoading={deletedLoading}
+          onCancel={handleCancel}
+        ></Modal>
       </Spin>
-      <Modal
-        title={
-          <Space>
-            <ExclamationCircleTwoTone twoToneColor="#FFD700" style={{ fontSize: '20px' }} />
-            <span>确定要彻底删除此问卷吗？</span>
-          </Space>
-        }
-        open={deleteOpen}
-        onOk={handleOk}
-        confirmLoading={deletedLoading}
-        onCancel={handleCancel}
-      ></Modal>
     </>
   );
 };

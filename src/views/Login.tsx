@@ -1,8 +1,11 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Typography, Button, Space, Form, Checkbox, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { REGISTER_PATHNAME } from '../router';
+import { Link, useNavigate } from 'react-router-dom';
+import { userLogin } from '../api/user';
+import { useRequest } from 'ahooks';
+import { REGISTER_PATHNAME, LIST_PATHNAME } from '../router';
+import { setToken } from '../utils/token/user-token';
 import styles from './Login.module.scss';
 const { Title } = Typography;
 type FieldType = {
@@ -12,18 +15,40 @@ type FieldType = {
 };
 const USERNAME = 'username';
 const PASSWORD = 'password';
+const REMEMBER = 'remember';
 const Login: FC = () => {
+  const nav = useNavigate();
+  const [rememberMe] = useState(localStorage.getItem(REMEMBER) === 'true');
   const [form] = Form.useForm();
+  const { loading, run: userLoginFn } = useRequest(
+    async info => {
+      if (loading) return;
+      const data = await userLogin(info);
+      return data;
+    },
+    {
+      manual: true,
+      onSuccess(result: any) {
+        const { token = '' } = result;
+        nav(LIST_PATHNAME);
+        setToken(token);
+      },
+    },
+  );
   const onFinish = (values: any) => {
     const { username, password, remember } = values || {};
     if (remember) {
       console.log(remember);
+
+      localStorage.setItem(REMEMBER, remember);
       localStorage.setItem(USERNAME, username);
       localStorage.setItem(PASSWORD, password);
     } else {
       localStorage.removeItem(USERNAME);
       localStorage.removeItem(PASSWORD);
+      localStorage.removeItem(REMEMBER);
     }
+    userLoginFn(values);
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -52,7 +77,7 @@ const Login: FC = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: false }}
+        initialValues={{ remember: rememberMe }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}

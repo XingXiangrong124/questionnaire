@@ -1,9 +1,19 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { message } from 'antd';
+import { getToken } from '../token/user-token';
 const instance: any = axios.create({
   timeout: 10 * 1000,
 });
-// 拦截器，统一处理错误消息
+// 请求拦截器，每次请求之前都会加上token
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    config.headers = config.headers || {};
+    config.headers['Authorization'] = `Bearer ${getToken()}`; // JWT固定格式
+    return config;
+  },
+  (error: AxiosError) => Promise.reject(error),
+);
+// 回复拦截器，统一处理错误消息
 instance.interceptors.response.use((res: any) => {
   const resInfo: ResponseType = res.data || {};
   const { state, data, msg } = resInfo;

@@ -1,8 +1,10 @@
 import { FC } from 'react';
-import { Typography, Button, Space, Form, Input } from 'antd';
+import { Typography, Button, Space, Form, Input, Spin } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LOGIN_PATHNAME } from '../router';
+import { userRegister } from '../api/user';
+import { useRequest } from 'ahooks';
 import styles from './Register.module.scss';
 const { Title } = Typography;
 type FieldType = {
@@ -11,13 +13,30 @@ type FieldType = {
   comfirm?: string;
   remember?: string;
 };
+
 const Register: FC = () => {
+  const nav = useNavigate();
   const onFinish = (values: any) => {
+    userRegisterFn(values);
     console.log('Success:', values);
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
+  const { loading, run: userRegisterFn } = useRequest(
+    async info => {
+      if (loading) return;
+      const data = await userRegister(info);
+      return data;
+    },
+    {
+      manual: true,
+      onSuccess() {
+        alert('注册成功');
+        nav(LOGIN_PATHNAME);
+      },
+    },
+  );
   return (
     <div className={styles.content}>
       <Space className={styles.title}>
@@ -51,7 +70,10 @@ const Register: FC = () => {
         <Form.Item<FieldType>
           label="密码"
           name="password"
-          rules={[{ required: true, message: '请输入密码!' }]}
+          rules={[
+            { required: true, message: '请输入密码!' },
+            { type: 'string', min: 5, max: 18, message: '密码长度在5-18之间' },
+          ]}
         >
           <Input.Password />
         </Form.Item>

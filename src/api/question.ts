@@ -47,3 +47,11 @@ export const duplicateQuestionList = (id: string): Promise<ResponseType> => {
     method: 'post',
   });
 };
+
+export const deleteQuestionLsit = (ids: string[]): Promise<ResponseType> => {
+  return request({
+    url: '/api/questionList',
+    method: 'delete',
+    data: { ids },
+  });
+};
