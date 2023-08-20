@@ -1,4 +1,4 @@
-export type InputContentConfig = {
+export type InputPropsConfig = {
   text?: string;
   placeholder?: string;
 };

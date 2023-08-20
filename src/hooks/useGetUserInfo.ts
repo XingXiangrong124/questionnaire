@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux/es/hooks/useSelector';
+import { useSelector } from 'react-redux';
 import { UserInfo } from './../store/userReducer';
 import { StateType } from '../store';
 function useGetUserInfo() {

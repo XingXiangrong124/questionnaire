@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ComponentContentConfig } from '../../components/Question';
+import { ComponentPropsConfig } from '../../components/Question';
 export type ComponentInfoType = {
   fe_id: string;
   type: string;
   title: string;
-  props: ComponentContentConfig;
+  props: ComponentPropsConfig;
 };
 export type ComponentListType = {
   componentList: Array<ComponentInfoType>;

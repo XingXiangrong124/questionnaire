@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Typography, Input } from 'antd';
-import { InputContentConfig, inputDefaultConfig } from './interface';
+import { InputPropsConfig, inputDefaultConfig } from './interface';
 
 const { Text } = Typography;
-const InputComponent: FC<InputContentConfig> = props => {
+const InputComponent: FC<InputPropsConfig> = props => {
   const { text, placeholder } = { ...inputDefaultConfig, ...props };
   return (
     <div>
