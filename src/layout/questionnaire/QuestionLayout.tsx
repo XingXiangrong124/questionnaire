@@ -8,10 +8,13 @@ const QuestionLayout: FC = () => {
   useJugeJumpNav(waitLoading);
   return (
     <div>
-      {/* <div>header</div> */}
-      <Spin size="large" spinning={waitLoading} style={{ margin: '0 auto', marginTop: '25vh' }}>
+      {waitLoading ? (
+        <div style={{ textAlign: 'center', marginTop: '25vh' }}>
+          <Spin size="large" />
+        </div>
+      ) : (
         <Outlet />
-      </Spin>
+      )}
     </div>
   );
 };

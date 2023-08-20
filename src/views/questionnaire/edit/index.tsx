@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { useRequestQDeatil } from '../../../hooks/useRequestQDeatil';
+import { useLoadQuestionDeatil } from '../../../hooks/useLoadQuestionDetail';
 import styles from './index.module.scss';
+import Canvas from './Canvas';
 const Edit: FC = () => {
-  // const { loading, data } = useRequestQDeatil();
+  const { loading } = useLoadQuestionDeatil();
   return (
     <div className={styles.container}>
       <div className={styles.header}>Edit Header</div>
@@ -13,7 +14,9 @@ const Edit: FC = () => {
           </div>
           <div className={styles.main}>
             <div className={styles['canvas-wrapper']}>
-              <div className={styles.canvas}>画布，测试</div>
+              <div className={styles.canvas}>
+                <Canvas loading={loading} />
+              </div>
             </div>
           </div>
           <div className={styles.right}>Right</div>
