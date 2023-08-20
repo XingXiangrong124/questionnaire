@@ -69,9 +69,13 @@ const router = createBrowserRouter([
   },
 ]);
 export default router;
-
+export const HOME_PATHNAME = '/';
 export const LIST_PATHNAME = '/management/list';
 export const STAR_PATHNAME = '/management/star';
 export const RUBBISH_PATHNAME = '/management/rubbish';
 export const REGISTER_PATHNAME = '/register';
 export const LOGIN_PATHNAME = '/login';
+
+export const NoNeedLoginIN = (pathname: string) => {
+  return [HOME_PATHNAME, LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname);
+};
