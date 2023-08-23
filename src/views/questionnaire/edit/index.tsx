@@ -1,9 +1,15 @@
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLoadQuestionDeatil } from '../../../hooks/useLoadQuestionDetail';
 import styles from './index.module.scss';
+import { selectedComponents } from '../../../store/questionReducer/componentReducer';
 import Canvas from './Canvas';
 const Edit: FC = () => {
   const { loading } = useLoadQuestionDeatil();
+  const dispatch = useDispatch();
+  const clearClick = () => {
+    dispatch(selectedComponents(''));
+  };
   return (
     <div className={styles.container}>
       <div className={styles.header}>Edit Header</div>
@@ -12,7 +18,7 @@ const Edit: FC = () => {
           <div className={styles.left}>
             <div></div>
           </div>
-          <div className={styles.main}>
+          <div className={styles.main} onClick={clearClick}>
             <div className={styles['canvas-wrapper']}>
               <div className={styles.canvas}>
                 <Canvas loading={loading} />

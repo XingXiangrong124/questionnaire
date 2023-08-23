@@ -8,9 +8,12 @@
   border-radius: 6px;
   padding: 4px 12px;
   &:hover {
-    border-color: #1e80ff;
+    border-color: #a1adca55;
   }
   .control {
     pointer-events: none; // 屏蔽鼠标行为，组件不让被点击到
   }
+}
+.selected {
+  border-color: #4a8fd09b !important;
 }
