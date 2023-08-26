@@ -4,11 +4,13 @@
 
 import TitleComponent from './TitleComponent';
 import { titleDefaultConfig } from './interface';
+import ProperCom from './ProperCom';
 export * from './interface';
 // 组件的配置
 export default {
   title: '输入框',
   type: 'title',
   Component: TitleComponent,
+  ProperCom,
   defaultProps: titleDefaultConfig,
 };

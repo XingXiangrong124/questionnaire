@@ -5,25 +5,24 @@ import { TitlePropsConfig, titleDefaultConfig } from './interface';
 const { Title } = Typography;
 const TitleComponent: FC<TitlePropsConfig> = props => {
   const { text, level, textCenter } = { ...titleDefaultConfig, ...props };
-  let newLevel = (level <= 1 ? 1 : level >= 5 ? 5 : level) as 1 | 2 | 3 | 4 | 5 | undefined;
-  const changeFoontSize = (newLevel: 1 | 2 | 3 | 4 | 5 | undefined) => {
-    if (newLevel === 1) {
+  const changeFoontSize = (level: string | undefined) => {
+    if (level === '1') {
       return '24px';
-    } else if (newLevel === 2) {
+    } else if (level === '2') {
+      return '22px';
+    } else if (level === '3') {
       return '20px';
-    } else if (newLevel === 3) {
-      return '16px';
-    } else if (newLevel === 4) {
-      return '12px';
+    } else if (level === '4') {
+      return '18px';
     } else {
-      return '8px';
+      return '16px';
     }
   };
   return (
     <div>
       <Title
-        level={newLevel}
-        style={{ textAlign: textCenter ? 'center' : 'start', fontSize: changeFoontSize(newLevel) }}
+        level={isNaN(parseInt(level)) ? undefined : (parseInt(level) as 5 | 4 | 3 | 2 | 1)}
+        style={{ textAlign: textCenter ? 'center' : 'start', fontSize: changeFoontSize(level) }}
       >
         {text}
       </Title>

@@ -5,6 +5,7 @@ import styles from './index.module.scss';
 import { selectedComponents } from '../../../store/questionReducer/componentReducer';
 import Canvas from './Canvas';
 import LeftPart from './LeftPart';
+import RightPart from './RightPart';
 const Edit: FC = () => {
   const { loading } = useLoadQuestionDeatil();
   const dispatch = useDispatch();
@@ -28,7 +29,9 @@ const Edit: FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.right}>Right</div>
+          <div className={styles.right}>
+            <RightPart />
+          </div>
         </div>
       </div>
     </div>

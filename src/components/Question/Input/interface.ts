@@ -1,6 +1,8 @@
 export type InputPropsConfig = {
   text?: string;
   placeholder?: string;
+
+  onChange?: (newProp: InputPropsConfig) => void;
 };
 export const inputDefaultConfig = {
   text: '输入框标题',
