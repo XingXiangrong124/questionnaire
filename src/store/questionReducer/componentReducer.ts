@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { produce } from 'immer';
 import { ComponentPropsConfig } from '../../components/Question';
 export type ComponentInfoType = {
-  fe_id: string;
+  fe_id: string; // 前端生成id Mongodb不认这种格式
   type: string;
   title: string;
   props: ComponentPropsConfig;
@@ -25,10 +24,24 @@ const componentListSlice = createSlice({
     resetComponents: (state: ComponentListType, action: PayloadAction<ComponentListType>) => {
       return action.payload;
     },
+    // createSlice里面已经内置了immer
     selectedComponents: (state: ComponentListType, action: PayloadAction<string>) => {
       state.selectedID = action.payload;
     },
+    addComponent: (state: ComponentListType, action: PayloadAction<ComponentInfoType>) => {
+      const { selectedID, componentList } = state;
+      const newComponent = action.payload;
+      const index = componentList.findIndex(item => item.fe_id === selectedID);
+      if (index >= 0) {
+        // 选中组件
+        state.componentList.splice(index + 1, 0, newComponent);
+      } else {
+        // 未选中
+        state.componentList.push(newComponent);
+      }
+      state.selectedID = newComponent.fe_id;
+    },
   },
 });
-export const { resetComponents, selectedComponents } = componentListSlice.actions;
+export const { resetComponents, selectedComponents, addComponent } = componentListSlice.actions;
 export default componentListSlice.reducer;

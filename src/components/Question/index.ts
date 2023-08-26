@@ -13,7 +13,18 @@ export type ComponentConfigType = {
 };
 
 const componentConfigList: ComponentConfigType[] = [InputComponentConfig, TitleComponentConfig];
-
+// 用户分组
+export const getComponentByGroup = [
+  {
+    groupName: '文本显示',
+    componentGroup: [TitleComponentConfig],
+  },
+  {
+    groupName: '用户输入',
+    componentGroup: [InputComponentConfig],
+  },
+];
+// 根据类型查找组件
 export function getComponentByType(type: string) {
   return componentConfigList.find(c => c.type === type);
 }

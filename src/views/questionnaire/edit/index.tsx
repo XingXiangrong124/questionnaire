@@ -4,6 +4,7 @@ import { useLoadQuestionDeatil } from '../../../hooks/useLoadQuestionDetail';
 import styles from './index.module.scss';
 import { selectedComponents } from '../../../store/questionReducer/componentReducer';
 import Canvas from './Canvas';
+import LeftPart from './LeftPart';
 const Edit: FC = () => {
   const { loading } = useLoadQuestionDeatil();
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ const Edit: FC = () => {
       <div className={styles.contentBackground}>
         <div className={styles.content}>
           <div className={styles.left}>
-            <div></div>
+            <div>
+              <LeftPart />
+            </div>
           </div>
           <div className={styles.main} onClick={clearClick}>
             <div className={styles['canvas-wrapper']}>
