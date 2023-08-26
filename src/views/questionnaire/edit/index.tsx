@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLoadQuestionDeatil } from '../../../hooks/useLoadQuestionDetail';
 import styles from './index.module.scss';
 import { selectedComponents } from '../../../store/questionReducer/componentReducer';
+import EditHeader from './EditHeader';
 import Canvas from './Canvas';
 import LeftPart from './LeftPart';
 import RightPart from './RightPart';
@@ -14,7 +15,9 @@ const Edit: FC = () => {
   };
   return (
     <div className={styles.container}>
-      <div className={styles.header}>Edit Header</div>
+      <div className={styles.header}>
+        <EditHeader />
+      </div>
       <div className={styles.contentBackground}>
         <div className={styles.content}>
           <div className={styles.left}>
