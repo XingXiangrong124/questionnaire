@@ -19,7 +19,7 @@ function getComponent(componentInfo: ComponentInfoType) {
   return <Component {...props} />;
 }
 const Canvas: FC<PropsType> = ({ loading }) => {
-  const { componentList, selectedID } = useGetComponents();
+  const { visibleComponent, selectedID } = useGetComponents();
   const dispatch = useDispatch();
   if (loading) {
     return (
@@ -34,7 +34,7 @@ const Canvas: FC<PropsType> = ({ loading }) => {
   };
   return (
     <div className={styles.canvas}>
-      {componentList.map(c => {
+      {visibleComponent.map(c => {
         const { fe_id } = c;
         const wrapperSelect = styles.selected;
         const wrapperClassName = classNames(styles['content-wrapper'], {

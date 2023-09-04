@@ -5,7 +5,12 @@ function useGetComponents() {
   const component = useSelector<StateType>(state => state.component);
   const { componentList = [], selectedID } = component as ComponentListType;
   const selectedComponent = componentList.find(item => item.fe_id === selectedID);
-  return { componentList, selectedID, selectedComponent };
+  const visibleComponent = componentList.filter(item => {
+    const hasHidden = item.hasOwnProperty('isHidden');
+    if (!hasHidden || !item.isHidden) return true;
+    return false;
+  });
+  return { componentList, selectedID, selectedComponent, visibleComponent };
 }
 
 export default useGetComponents;
