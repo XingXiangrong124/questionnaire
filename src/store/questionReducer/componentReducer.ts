@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ComponentPropsConfig } from '../../components/Question';
+import { findNewSelectedID } from './util';
 export type ComponentInfoType = {
   fe_id: string; // 前端生成id Mongodb不认这种格式
   type: string;
@@ -50,7 +51,15 @@ const componentListSlice = createSlice({
       const component = state.componentList.find(item => item.fe_id === fe_id);
       if (component) component.props = { ...component.props, ...newProps };
     },
+    // 删除组件
+    removeComponent: (state: ComponentListType) => {
+      const index = state.componentList.findIndex(item => item.fe_id === state.selectedID);
+      if (index < 0) return;
+      state.selectedID = findNewSelectedID(state.selectedID, state.componentList);
+      state.componentList.splice(index, 1);
+    },
   },
 });
-export const { resetComponents, selectedComponents, addComponent, changeProps } = componentListSlice.actions;
+export const { resetComponents, selectedComponents, addComponent, changeProps, removeComponent } =
+  componentListSlice.actions;
 export default componentListSlice.reducer;

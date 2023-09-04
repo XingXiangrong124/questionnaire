@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Button, Typography, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { LeftOutlined, CheckOutlined } from '@ant-design/icons';
+import EditToolBar from './EditToolBar';
 import styles from './EditHeader.module.scss';
 const { Title } = Typography;
 const EditHeader: FC = () => {
@@ -17,7 +18,9 @@ const EditHeader: FC = () => {
             <Title>问卷标题</Title>
           </Space>
         </div>
-        <div className={styles.main}>中</div>
+        <div className={styles.main}>
+          <EditToolBar />
+        </div>
         <div className={styles.right}>
           <Space>
             <Button style={{ border: 'none' }} icon={<CheckOutlined />}>
