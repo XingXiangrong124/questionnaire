@@ -4,6 +4,7 @@ export type TitlePropsConfig = {
   textCenter?: boolean;
 
   onChange?: (newProp: TitlePropsConfig) => void;
+  locked?: boolean;
 };
 export const titleDefaultConfig = {
   text: '我是标题',

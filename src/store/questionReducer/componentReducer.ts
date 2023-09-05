@@ -1,21 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import cloneDeep from 'lodash.clonedeep';
+import { nanoid } from 'nanoid';
 import { ComponentPropsConfig } from '../../components/Question';
-import { findNewSelectedID } from './util';
+import { findNewSelectedID, addNewComponent } from './util';
 export type ComponentInfoType = {
   fe_id: string; // 前端生成id Mongodb不认这种格式
   type: string;
   title: string;
   isHidden?: boolean;
+  isLocked?: boolean;
   props: ComponentPropsConfig;
 };
 export type ComponentListType = {
   componentList: Array<ComponentInfoType>;
   selectedID: string;
+  copiedComponent: ComponentInfoType | null;
 };
 
 const INIT_STATE: ComponentListType = {
   componentList: [],
   selectedID: '',
+  copiedComponent: null,
 };
 
 const componentListSlice = createSlice({
@@ -30,18 +35,9 @@ const componentListSlice = createSlice({
     selectedComponents: (state: ComponentListType, action: PayloadAction<string>) => {
       state.selectedID = action.payload;
     },
-    addComponent: (state: ComponentListType, action: PayloadAction<ComponentInfoType>) => {
-      const { selectedID, componentList } = state;
-      const newComponent = action.payload;
-      const index = componentList.findIndex(item => item.fe_id === selectedID);
-      if (index >= 0) {
-        // 选中组件
-        state.componentList.splice(index + 1, 0, newComponent);
-      } else {
-        // 未选中
-        state.componentList.push(newComponent);
-      }
-      state.selectedID = newComponent.fe_id;
+    addComponentHandle: (state: ComponentListType, action: PayloadAction<ComponentInfoType>) => {
+      // 复用代码
+      addNewComponent(state, action.payload);
     },
     // 修改组件属性
     changeProps: (
@@ -59,10 +55,7 @@ const componentListSlice = createSlice({
       state.selectedID = findNewSelectedID(state.selectedID, state.componentList);
       state.componentList.splice(index, 1);
     },
-    /**
-     * 隐藏和显示组件
-     *
-     */
+    // 隐藏和显示组件
     changeVisibleComponent: (
       state: ComponentListType,
       action: PayloadAction<{ fe_id: string; isHidden: boolean }>,
@@ -77,17 +70,46 @@ const componentListSlice = createSlice({
         state.selectedID = fe_id;
       }
       component.isHidden = isHidden;
+    },
 
-      // state.selectedID = '';
+    // 锁定/解锁组件
+    changeLockedComponent: (state: ComponentListType, action: PayloadAction<{ fe_id: string }>) => {
+      const { fe_id } = action.payload;
+      if (fe_id === '') return;
+      const component = state.componentList.filter(item => !item.isHidden).find(item => item.fe_id === fe_id);
+      if (component) {
+        component.isLocked = !component.isLocked;
+      }
+    },
+    // 复制组件
+    copiedComponentHandle: (state: ComponentListType, action: PayloadAction<{ fe_id: string }>) => {
+      const { fe_id } = action.payload;
+      if (fe_id === '') return;
+      const component = state.componentList.filter(item => !item.isHidden).find(item => item.fe_id === fe_id);
+      if (component) {
+        state.copiedComponent = cloneDeep(component);
+      }
+    },
+    // 粘贴
+    pastedComponentHandle: (state: ComponentListType) => {
+      const copy = state.copiedComponent;
+      if (copy) {
+        copy.fe_id = nanoid();
+        // 复用代码
+        addNewComponent(state, copy);
+      }
     },
   },
 });
 export const {
   resetComponents,
   selectedComponents,
-  addComponent,
+  addComponentHandle,
   changeProps,
   removeComponent,
   changeVisibleComponent,
+  changeLockedComponent,
+  copiedComponentHandle,
+  pastedComponentHandle,
 } = componentListSlice.actions;
 export default componentListSlice.reducer;

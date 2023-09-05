@@ -1,4 +1,4 @@
-import { ComponentInfoType } from './componentReducer';
+import { ComponentInfoType, ComponentListType } from './componentReducer';
 /**
  * 寻找删除之后的下一个selectedID
  * @param fe_id: 当前selectedID
@@ -16,4 +16,21 @@ export const findNewSelectedID = (fe_id: string, componentList: ComponentInfoTyp
     // 否则返回下一个selectedID
     return visibleComponent[index + 1].fe_id;
   }
+};
+/**
+ * 逻辑重复时， 要学会复用代码
+ * @param state
+ * @param newComponent
+ */
+export const addNewComponent = (state: ComponentListType, newComponent: ComponentInfoType) => {
+  const { selectedID, componentList } = state;
+  const index = componentList.findIndex(item => item.fe_id === selectedID);
+  if (index >= 0) {
+    // 选中组件
+    state.componentList.splice(index + 1, 0, newComponent);
+  } else {
+    // 未选中
+    state.componentList.push(newComponent);
+  }
+  state.selectedID = newComponent.fe_id;
 };

@@ -22,7 +22,7 @@ export function useLoadQuestionDeatil() {
   useEffect(() => {
     if (!data) return;
     const { title = '', componentList = [] } = data as any;
-    dispatch(resetComponents({ componentList, selectedID: '' }));
+    dispatch(resetComponents({ componentList, selectedID: '', copiedComponent: null }));
   }, [data]);
 
   // 判断id变化，执行ajax加载问卷数据

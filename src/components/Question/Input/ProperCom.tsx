@@ -2,7 +2,7 @@ import { useEffect, FC } from 'react';
 import { Form, Input } from 'antd';
 import { InputPropsConfig } from './interface';
 const ProperCom: FC<InputPropsConfig> = props => {
-  const { text, placeholder, onChange } = props;
+  const { text, placeholder, onChange, locked } = props;
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({ text, placeholder });
@@ -17,6 +17,7 @@ const ProperCom: FC<InputPropsConfig> = props => {
         onValuesChange={FormChangeHandle}
         initialValues={{ text, placeholder }}
         form={form}
+        disabled={locked}
       >
         <Form.Item label="标题" name="text" rules={[{ required: true, message: '请输入标题' }]}>
           <Input />

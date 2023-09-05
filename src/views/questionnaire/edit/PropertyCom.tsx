@@ -12,7 +12,7 @@ const PropertyCom: FC = () => {
   const { selectedComponent } = useGetComponents();
   if (selectedComponent == null) return <NoSelected />;
 
-  const { type, props } = selectedComponent;
+  const { type, props, isLocked, isHidden } = selectedComponent;
   const componentConfig = getComponentByType(type);
   if (componentConfig == null) return <NoSelected />;
   const { ProperCom } = componentConfig;
@@ -22,6 +22,6 @@ const PropertyCom: FC = () => {
     dispatch(changeProps({ fe_id, newProps }));
   }
 
-  return <ProperCom {...props} onChange={handleChange} />;
+  return <ProperCom {...props} onChange={handleChange} locked={isLocked || isHidden} />;
 };
 export default PropertyCom;

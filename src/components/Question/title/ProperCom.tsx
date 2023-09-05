@@ -2,7 +2,7 @@ import { useEffect, FC } from 'react';
 import { Form, Input, Select, Checkbox } from 'antd';
 import { TitlePropsConfig } from './interface';
 const ProperCom: FC<TitlePropsConfig> = props => {
-  const { text, level, textCenter, onChange } = props;
+  const { text, level, textCenter, onChange, locked } = props;
   const [form] = Form.useForm();
   const handleChangeSelect = (value: string) => {
     console.log(`selected ${value}`);
@@ -23,6 +23,7 @@ const ProperCom: FC<TitlePropsConfig> = props => {
         onValuesChange={FormChangeHandle}
         initialValues={{ text, level, textCenter }}
         form={form}
+        disabled={locked}
       >
         <Form.Item label="标题内容" name="text" rules={[{ required: true, message: '请输入标题' }]}>
           <Input />

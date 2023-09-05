@@ -4,16 +4,16 @@ import { useDispatch } from 'react-redux';
 import { getComponentByGroup, ComponentConfigType } from '../../../components/Question';
 import styles from './ComponentLib.module.scss';
 import { nanoid } from 'nanoid';
-import { addComponent } from '../../../store/questionReducer/componentReducer';
+import { addComponentHandle } from '../../../store/questionReducer/componentReducer';
 const { Title } = Typography;
 const ComponentLib: FC = () => {
   const dispatch = useDispatch();
 
   function getComponents(c: ComponentConfigType) {
     const { Component, type, title, defaultProps } = c;
-    function clickAddComponent() {
+    function clickaddComponentHandle() {
       dispatch(
-        addComponent({
+        addComponentHandle({
           fe_id: nanoid(),
           type,
           title,
@@ -22,7 +22,7 @@ const ComponentLib: FC = () => {
       );
     }
     return (
-      <div className={styles['content-wrapper']} key={type} onClick={() => clickAddComponent()}>
+      <div className={styles['content-wrapper']} key={type} onClick={() => clickaddComponentHandle()}>
         <div className={styles['control']}>
           <Component />
         </div>
