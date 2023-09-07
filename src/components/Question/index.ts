@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import InputComponentConfig, { InputPropsConfig } from './Input';
 import TitleComponentConfig, { TitlePropsConfig } from './title';
+import ParagraphComponentConfig, { ParagraphPropsConfig } from './paragraph';
 // 各个组件的 prop type
-export type ComponentPropsConfig = InputPropsConfig | TitlePropsConfig;
+export type ComponentPropsConfig = InputPropsConfig | TitlePropsConfig | ParagraphPropsConfig;
 
 // 统一组件的配置
 export type ComponentConfigType = {
@@ -13,12 +14,16 @@ export type ComponentConfigType = {
   defaultProps: ComponentPropsConfig;
 };
 
-const componentConfigList: ComponentConfigType[] = [InputComponentConfig, TitleComponentConfig];
+const componentConfigList: ComponentConfigType[] = [
+  InputComponentConfig,
+  TitleComponentConfig,
+  ParagraphComponentConfig,
+];
 // 用户分组
 export const getComponentByGroup = [
   {
     groupName: '文本显示',
-    componentGroup: [TitleComponentConfig],
+    componentGroup: [TitleComponentConfig, ParagraphComponentConfig],
   },
   {
     groupName: '用户输入',
