@@ -5,12 +5,14 @@ import {
   removeComponent,
   copiedComponentHandle,
   pastedComponentHandle,
+  arrowUpSelected,
+  arrowDownSelected,
 } from '../store/questionReducer/componentReducer';
 
 function isAreaActive() {
   // 当光标点击在哪里就返回哪里的element，当在右边栏设置组件时，activeElement返回input Element, 当鼠标在问卷画布上时，activeElement返回body
   const activeElem = document.activeElement;
-  if (activeElem === document.body) return true;
+  if (activeElem === document.body || activeElem?.tagName === 'DIV') return true;
 
   return false;
 }
@@ -33,6 +35,18 @@ const useKeyControl = () => {
   useKeyPress(['ctrl.v', 'meta.v'], () => {
     if (!isAreaActive()) return;
     dispatch(pastedComponentHandle());
+  });
+
+  // 选中上一个
+  useKeyPress('uparrow', () => {
+    if (!isAreaActive()) return;
+    dispatch(arrowUpSelected());
+  });
+
+  // 选中下一个
+  useKeyPress('downarrow', () => {
+    if (!isAreaActive()) return;
+    dispatch(arrowDownSelected());
   });
 };
 export default useKeyControl;

@@ -99,6 +99,30 @@ const componentListSlice = createSlice({
         addNewComponent(state, copy);
       }
     },
+    // 移动到上一个
+    arrowUpSelected: (state: ComponentListType) => {
+      const { selectedID, componentList } = state;
+      if (selectedID === '') return;
+      const visibleComponent = componentList.filter(item => !item.isHidden);
+      if (visibleComponent) {
+        const selectedIndex = visibleComponent.findIndex(item => item.fe_id === selectedID);
+        // 说明没有这个index或者已经在第一个，无法移动上一位
+        if (selectedIndex <= 0) return;
+        state.selectedID = visibleComponent[selectedIndex - 1].fe_id;
+      }
+    },
+    // 移动到下一个
+    arrowDownSelected: (state: ComponentListType) => {
+      const { selectedID, componentList } = state;
+      if (selectedID === '') return;
+      const visibleComponent = componentList.filter(item => !item.isHidden);
+      if (visibleComponent) {
+        const selectedIndex = visibleComponent.findIndex(item => item.fe_id === selectedID);
+        // 说明没有这个index或者已经在最后一个，无法移动下一位
+        if (selectedIndex < 0 || selectedIndex + 1 === visibleComponent.length) return;
+        state.selectedID = visibleComponent[selectedIndex + 1].fe_id;
+      }
+    },
   },
 });
 export const {
@@ -111,5 +135,7 @@ export const {
   changeLockedComponent,
   copiedComponentHandle,
   pastedComponentHandle,
+  arrowUpSelected,
+  arrowDownSelected,
 } = componentListSlice.actions;
 export default componentListSlice.reducer;
