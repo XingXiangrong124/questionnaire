@@ -13,6 +13,7 @@ const ProperCom: FC<ParagraphPropsConfig> = props => {
       onChange(form.getFieldsValue());
     }
   };
+
   return (
     <div>
       <Form
