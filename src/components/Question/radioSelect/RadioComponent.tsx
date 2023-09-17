@@ -1,20 +1,15 @@
-import { FC, useState } from 'react';
-import { Typography, Radio, Space, RadioChangeEvent } from 'antd';
+import { FC } from 'react';
+import { Typography, Radio, Space } from 'antd';
 import { RadioPropsConfig, radioDefaultConfig, OptionType } from './interface';
 const { Paragraph } = Typography;
 const RadioComponent: FC<RadioPropsConfig> = props => {
-  const { title, direction = 'horizontal', options = [], defaultValue } = { ...radioDefaultConfig, ...props };
-  const [value, setValue] = useState(defaultValue);
-  const onChange = (e: RadioChangeEvent) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
-  };
+  const { title, direction = true, options = [], defaultValue } = { ...radioDefaultConfig, ...props };
 
   return (
     <div>
       <Paragraph strong>{title}</Paragraph>
-      <Radio.Group onChange={onChange} value={value}>
-        <Space direction={direction} wrap={true}>
+      <Radio.Group value={defaultValue}>
+        <Space direction={direction ? 'vertical' : 'horizontal'} wrap={true}>
           {options?.map(item => RadioOption(item))}
         </Space>
       </Radio.Group>
@@ -23,10 +18,10 @@ const RadioComponent: FC<RadioPropsConfig> = props => {
 };
 
 const RadioOption: FC<OptionType> = props => {
-  const { text, value } = props;
+  const { value } = props;
   return (
     <Radio value={value} key={value}>
-      {text}
+      {value}
     </Radio>
   );
 };

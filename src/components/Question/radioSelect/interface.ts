@@ -1,10 +1,9 @@
 export type OptionType = {
-  text?: string;
   value?: string;
 };
 export type RadioPropsConfig = {
   title?: string;
-  direction?: 'vertical' | 'horizontal' | undefined;
+  direction?: boolean;
   options?: OptionType[];
   defaultValue?: string;
 
@@ -14,13 +13,8 @@ export type RadioPropsConfig = {
 };
 export const radioDefaultConfig: RadioPropsConfig = {
   title: '我是单选框',
-  direction: 'horizontal',
-  options: [
-    { text: 'A', value: 'a' },
-    { text: 'B', value: 'b' },
-    { text: 'C', value: 'c' },
-    { text: 'D', value: 'd' },
-  ],
+  direction: false,
+  options: [{ value: 'a' }, { value: 'b' }, { value: 'c' }, { value: 'd' }],
   // 可以默认一个都不选中
   defaultValue: '',
 };
