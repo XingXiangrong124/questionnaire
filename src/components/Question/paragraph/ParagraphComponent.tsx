@@ -4,7 +4,7 @@ import { ParagraphPropsConfig, paragraphDefaultConfig } from './interface';
 
 const { Paragraph } = Typography;
 const ParagraphComponent: FC<ParagraphPropsConfig> = props => {
-  const { text, textCenter } = { ...paragraphDefaultConfig, ...props };
+  const { text = '', textCenter } = { ...paragraphDefaultConfig, ...props };
   const textLine = text.split('\n');
   return (
     <div>

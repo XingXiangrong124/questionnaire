@@ -3,7 +3,7 @@ export type OptionType = {
 };
 export type RadioPropsConfig = {
   title?: string;
-  direction?: boolean;
+  vertical?: boolean;
   options?: OptionType[];
   defaultValue?: string;
 
@@ -13,7 +13,7 @@ export type RadioPropsConfig = {
 };
 export const radioDefaultConfig: RadioPropsConfig = {
   title: '我是单选框',
-  direction: false,
+  vertical: false,
   options: [{ value: 'a' }, { value: 'b' }, { value: 'c' }, { value: 'd' }],
   // 可以默认一个都不选中
   defaultValue: '',

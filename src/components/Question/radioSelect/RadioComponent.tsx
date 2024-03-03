@@ -3,13 +3,13 @@ import { Typography, Radio, Space } from 'antd';
 import { RadioPropsConfig, radioDefaultConfig, OptionType } from './interface';
 const { Paragraph } = Typography;
 const RadioComponent: FC<RadioPropsConfig> = props => {
-  const { title, direction = true, options = [], defaultValue } = { ...radioDefaultConfig, ...props };
+  const { title, vertical = true, options = [], defaultValue } = { ...radioDefaultConfig, ...props };
 
   return (
     <div>
       <Paragraph strong>{title}</Paragraph>
       <Radio.Group value={defaultValue}>
-        <Space direction={direction ? 'vertical' : 'horizontal'} wrap={true}>
+        <Space direction={vertical ? 'vertical' : 'horizontal'} wrap={true}>
           {options?.map(item => RadioOption(item))}
         </Space>
       </Radio.Group>

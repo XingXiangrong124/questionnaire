@@ -1,9 +1,10 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import loaderUtils from 'loader-utils';
+import { inspectorServer } from '@react-dev-inspector/vite-plugin';
 import path from 'path';
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), inspectorServer()],
   server: {
     host: '0.0.0.0',
     proxy: {

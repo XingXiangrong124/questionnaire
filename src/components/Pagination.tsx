@@ -23,7 +23,7 @@ const PaginationComponent: FC<PageInfo> = props => {
       pathname: currentPath.pathname,
       search: searchParams.toString(),
     });
-    console.log('Page: ', pageNumber);
+    console.log('Page: ', pageNumber, searchParams.toString());
   };
   return (
     <ConfigProvider locale={zh_CN}>

@@ -12,6 +12,7 @@ import {
 function isAreaActive() {
   // 当光标点击在哪里就返回哪里的element，当在右边栏设置组件时，activeElement返回input Element, 当鼠标在问卷画布上时，activeElement返回body
   const activeElem = document.activeElement;
+  console.log(activeElem);
   if (activeElem === document.body || activeElem?.tagName === 'DIV') return true;
 
   return false;

@@ -3,11 +3,11 @@ import { Form, Input, Checkbox, Select, Space, Button } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { RadioPropsConfig, OptionType } from './interface';
 const ProperCom: FC<RadioPropsConfig> = props => {
-  const { title, direction, options, locked, onChange, defaultValue } = props;
+  const { title, vertical, options, locked, onChange, defaultValue } = props;
   const [form] = Form.useForm();
   useEffect(() => {
-    form.setFieldsValue({ title, direction, defaultValue });
-  }, [title, direction, defaultValue]);
+    form.setFieldsValue({ title, vertical, defaultValue });
+  }, [title, vertical, defaultValue]);
   const FormChangeHandle = () => {
     if (onChange) {
       const newFormValue = form.getFieldsValue();
@@ -33,12 +33,12 @@ const ProperCom: FC<RadioPropsConfig> = props => {
   return (
     <div>
       <Form
-        initialValues={{ title, direction, options, defaultValue }}
+        initialValues={{ title, vertical, options, defaultValue }}
         form={form}
         disabled={locked}
         onValuesChange={FormChangeHandle}
       >
-        <Form.Item label="单选标题" name="title" rules={[{ required: true, message: '请输入标题' }]}>
+        <Form.Item label="单选标题" name="title" rules={[{ required: true, message: '请输入单选标题' }]}>
           <Input />
         </Form.Item>
         <Form.Item label="单选择项">
@@ -90,7 +90,7 @@ const ProperCom: FC<RadioPropsConfig> = props => {
         <Form.Item label="默认选中" name="defaultValue">
           <Select options={options?.map(({ value }) => ({ value, label: value }))} />
         </Form.Item>
-        <Form.Item label="" name="direction" valuePropName="checked">
+        <Form.Item label="" name="vertical" valuePropName="checked">
           <Checkbox>垂直布局</Checkbox>
         </Form.Item>
       </Form>
